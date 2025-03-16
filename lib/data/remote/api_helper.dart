@@ -5,14 +5,6 @@ import 'package:shopping_application/app_exceptions.dart';
 class ApiHelper {
   Future<dynamic> getApi({required String url}) async {
     var uri = Uri.parse(url);
-
-    // http.Response response = await http.get(uri);
-    // if(response.statusCode == 200){
-    //   CurrentWeatherModel weatherModel = jsonDecode(response.body);
-    //   return weatherModel;
-    // } else {
-    //   return null; 
-    // }
     try{
       http.Response response = await http.get(uri);
       return returnJsonResponse(response);
@@ -20,19 +12,18 @@ class ApiHelper {
       throw(FetchDataException(errorMessage: "No internet!!"));
     }
   }
-/*
+
   Future<dynamic> postApi({required String url, Map<String, dynamic>? bodyParams}) async {
     var uri = Uri.parse(url);
 
-    http.Response response = await http.post(uri, body: bodyParams ?? {});
-    if(response.statusCode == 200){
-      CurrentWeatherModel weatherModel = jsonDecode(response.body);
-      return weatherModel;
-    } else {
-      return null; 
+    try{
+      http.Response response = await http.post(uri, body: bodyParams != null ? jsonEncode(bodyParams) : null);
+      return returnJsonResponse(response);
+    } on SocketException catch(e){
+      throw(FetchDataException(errorMessage: "No internet!!"));
     }
   }
-  */
+
 
   dynamic returnJsonResponse(http.Response response){
     switch(response.statusCode){

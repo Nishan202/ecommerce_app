@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_application/bloc/register_event.dart';
-import 'package:shopping_application/bloc/register_state.dart';
+import 'package:shopping_application/bloc/signup/register_event.dart';
+import 'package:shopping_application/bloc/signup/register_state.dart';
 import 'package:shopping_application/data/remote/api_helper.dart';
 import 'package:shopping_application/data/remote/urls.dart';
 

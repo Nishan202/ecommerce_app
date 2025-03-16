@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
           color: Colors.deepOrangeAccent,
           borderRadius: BorderRadius.circular(50)
         ),
-        child: Center(child: loading ? const CircularProgressIndicator(strokeWidth: 3, color: Colors.white,) : Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),),),
+        child: Center(child: loading == true ? const CircularProgressIndicator(strokeWidth: 3, color: Colors.white,) : Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),),),
       ),
     );
   }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_application/ui/screens/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_application/bloc/signup/register_bloc.dart';
 import 'package:shopping_application/ui/widgets/custom_button.dart';
 import 'package:shopping_application/ui/widgets/custom_textfield.dart';
+import '../../bloc/signup/register_event.dart';
+import '../../bloc/signup/register_state.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -15,6 +18,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _phoneNoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,31 +41,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             CustomTextfield(controller: _passwordController, labelText: 'Password', placeholder: 'Enter password', suffixIcon: IconButton(onPressed: (){}, icon: Icon(Icons.visibility_off),),),
             const SizedBox(height: 10,),
             const SizedBox(height: 30,),
-            CustomButton(title: 'Sign Up', onClick: () async {
-              // if(!await dbHelper.isAlreadyRegistered(email: _emailController.text, phoneNO: int.parse(_phoneNoController.text))){
-              //   UserDataModel newUser = UserDataModel(name: _nameController.text, email: _emailController.text, password: _passwordController.text, phoneNo: int.parse(_phoneNoController.text), createdAt: DateTime.now().millisecondsSinceEpoch.toString());
-              //   BlocProvider.of<UserBloc>(context).add(RegisterUser(user: newUser));
-              //   SharedPreferences prefs = await SharedPreferences.getInstance();
-              //   prefs.setString("name", _nameController.text);
-              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User successfully registered, Log in now')));
-              //   Navigator.pop(context);
-                // bool check = await dbHelper.registerUser(userModel: newUser);
-                // if(check){
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User successfully registered, Log in now')));
-                // }
-                // else{
-                //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Something went wrong, please try again!!')));
-                // }
-              // } else {
-              //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("user already registered, Log in now")));
-              // }
-            }),
+            BlocListener<RegisterBloc, RegisterState>(listener: (ctx, state){
+              if(state is RegisterLoadingState){
+                isLoading =  true;
+                setState(() {
+
+                });
+              }
+              if(state is RegisterErrorState){
+                isLoading = false;
+                setState(() {
+
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+              }
+
+              if(state is RegisterLoadedState){
+                isLoading = false;
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('User Registered successfully')));
+                Navigator.pop(context);
+              }
+            }, child: CustomButton(loading: isLoading, title: 'SignUp', onClick: (){
+              context.read<RegisterBloc>().add(RegisterUserEvent(name: _nameController.text, email: _emailController.text, password: _passwordController.text, phoneNo: int.parse(_phoneNoController.text)));
+            }),),
             const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('Already have an account?', style: TextStyle(fontSize: 16),),
-                TextButton(onPressed: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));}, child: const Text('Sign in', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepOrangeAccent),),)
+                TextButton(onPressed: () {Navigator.pop(context);}, child: const Text('Sign in', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepOrangeAccent),),)
               ],
             )
           ],

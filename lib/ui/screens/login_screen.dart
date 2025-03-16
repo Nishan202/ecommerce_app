@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_application/bloc/login/login_bloc.dart';
+import 'package:shopping_application/bloc/login/login_event.dart';
 import 'package:shopping_application/ui/screens/home_screen.dart';
 import 'package:shopping_application/ui/screens/registration_screen.dart';
 
+import '../../bloc/login/login_state.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
 
@@ -15,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,20 +40,33 @@ class _LoginScreenState extends State<LoginScreen> {
             //   child: TextButton(onPressed: (){}, child: Text('Forgot password')),
             // ),
             const SizedBox(height: 15,),
-            CustomButton(title: 'Sign In', onClick: () async {
-              // bool check = await db.authenticateUser(email: _emailController.text, password: _passwordController.text);
-              // if(check){
-              //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Successfully log in!!")));
+            BlocListener<LoginBloc, LoginState>(listener: (ctx, state){
+              if(state is LoginLoadingState){
+                isLoading = true;
+                setState(() {
+
+                });
+              }
+              if(state is LoginErrorState){
+                isLoading = false;
+                setState(() {
+
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+              }
+              if(state is LoginLoadedState){
+                isLoading = false;
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-              // } else{
-              //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Invalid credentials, Please Log in again")));
-              // }
-            }),
+              }
+            }, child: CustomButton(loading: isLoading, title: 'Login', onClick: (){
+              context.read<LoginBloc>().add(LoginUserEvent(email: _emailController.text, password: _passwordController.text));
+            }),),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Don't have an account?", style: TextStyle(fontSize: 16),),
-                TextButton(onPressed: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegistrationScreen()));}, child: const Text('Sign Up', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepOrangeAccent),),)
+                TextButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationScreen()));}, child: const Text('Sign Up', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepOrangeAccent),),)
               ],
             )
           ],

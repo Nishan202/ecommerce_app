@@ -47,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 200,),
-            Expanded(
+            Container(
+              height: 80,
               child: ListView.separated(itemCount: 20, scrollDirection: Axis.horizontal, itemBuilder: (ctx, index){
                 return const Column(
                   children: [
