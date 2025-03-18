@@ -17,7 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
           "password": event.password
         });
         if(res['status']){
-          emit(LoginLoadedState());
+          emit(LoginLoadedState(token: res['tokan']));
         } else{
           emit(LoginErrorState(errorMessage: res['message']));
         }

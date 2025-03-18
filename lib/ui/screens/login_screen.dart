@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_application/bloc/login/login_bloc.dart';
 import 'package:shopping_application/bloc/login/login_event.dart';
 import 'package:shopping_application/ui/screens/home_screen.dart';
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             //   child: TextButton(onPressed: (){}, child: Text('Forgot password')),
             // ),
             const SizedBox(height: 15,),
-            BlocListener<LoginBloc, LoginState>(listener: (ctx, state){
+            BlocListener<LoginBloc, LoginState>(listener: (ctx, state) async {
               if(state is LoginLoadingState){
                 isLoading = true;
                 setState(() {
@@ -56,6 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
               }
               if(state is LoginLoadedState){
                 isLoading = false;
+                // String token = state.token;
+                // print(token);
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString("token", state.token);
+
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
               }
