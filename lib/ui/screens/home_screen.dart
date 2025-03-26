@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_application/ui/screens/profile_screen.dart';
 import 'package:shopping_application/ui/widgets/product_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,9 +14,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Icon(Icons.menu), Icon(Icons.notification_add)],
+          children: [IconButton(onPressed: (){}, icon: Icon(Icons.menu)), IconButton(onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileScreen())), icon: Icon(Icons.person))],
         ),
       ),
       body: Container(

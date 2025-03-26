@@ -26,11 +26,21 @@ class UserDataModel {
   //       data: data ?? this.data,
   //     );
 
-  factory UserDataModel.fromJson(Map<String, dynamic> json) => UserDataModel(
-    status: json["status"],
-    message: json["message"],
-    data: json["data"] == null ? [] : List<Users>.from(json["data"]!.map((x) => Users.fromJson(x))),
-  );
+  // factory UserDataModel.fromJson(Map<String, dynamic> json) => UserDataModel(
+  //   status: json["status"],
+  //   message: json["message"],
+  //   data: json["data"] == null ? [] : List<Users>.from(json["data"]!.map((x) => Users.fromJson(x))),
+  // );
+
+  factory UserDataModel.fromJson(Map<String, dynamic> json){
+    List<Users> users = [];
+
+    for(Map<String, dynamic> userDetails in json['data']){
+      Users mUsers = Users.fromJson(userDetails);
+      users.add(mUsers);
+    }
+    return UserDataModel(data: users);
+  }
 
   Map<String, dynamic> toJson() => {
     "status": status,

@@ -15,6 +15,7 @@ class CustomTextfield extends StatelessWidget {
   final TextAlign textAlignment;
   final Color? hintColor;
   final Function()? onClick;
+  final String? Function(String?)? validate;
 
   const CustomTextfield(
       {super.key,
@@ -31,12 +32,13 @@ class CustomTextfield extends StatelessWidget {
       this.textAlignment = TextAlign.start,
       this.maximumLength,
       this.hintColor,
-      this.onClick});
+      this.onClick, this.validate});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       // canRequestFocus: false,
+      validator: validate,
       minLines: minimuLine,
       maxLines: maximumLine,
       maxLength: maximumLength,
@@ -65,8 +67,22 @@ class CustomTextfield extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
           // borderRadius: BorderRadius.only(topLeft: Radius.circular(24), bottomLeft: Radius.circular(24)),
           borderSide: const BorderSide(
-            width: 1,
+            width: 2,
             color: Colors.deepOrangeAccent,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          // borderRadius: BorderRadius.only(topLeft: Radius.circular(24), bottomLeft: Radius.circular(24)),
+          borderSide:
+          const BorderSide(width: 1, color: Colors.red),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          // borderRadius: BorderRadius.only(topLeft: Radius.circular(24), bottomLeft: Radius.circular(24)),
+          borderSide: const BorderSide(
+            width: 2,
+            color: Colors.red,
           ),
         ),
       ),
