@@ -121,8 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       isLoading = false;
                       // String token = state.token;
                       // print(token);
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString("token", state.token);
 
                       ScaffoldMessenger.of(context).showSnackBar(
