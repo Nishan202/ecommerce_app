@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_application/bloc/profile/profile_bloc.dart';
-import 'package:shopping_application/bloc/profile/profile_event.dart';
 import 'package:shopping_application/bloc/profile/profile_state.dart';
 
 import 'login_screen.dart';
@@ -28,7 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               IconButton(
                   onPressed: () async {
                     // await FirebaseAuth.instance.signOut();
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     prefs.getString('token');
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -36,24 +36,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: const Icon(Icons.exit_to_app_rounded)),
             ],
           )),
-      body: BlocListener<ProfileBloc, ProfileState>(listener: (ctx, state){
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (ctx, state) {
           if (state is ProfileLoadingState) {
             isLoading = true;
-            setState(() {
-
-            });
+            setState(() {});
           }
           if (state is ProfileErrorState) {
             isLoading = false;
-            setState(() {
-
-            });
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+            setState(() {});
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.errorMessage)));
           }
           if (state is ProfileLoadedState) {
             isLoading = false;
             var userData = state.userDataModel.data![0];
-             Column(
+            Column(
               children: [
                 const CircleAvatar(
                   maxRadius: 50,
@@ -103,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             );
           }
+          return Container();
         },
       ),
     );

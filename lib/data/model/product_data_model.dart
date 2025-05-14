@@ -2,7 +2,7 @@
 //
 //     final welcome = welcomeFromJson(jsonString);
 
-import 'dart:convert';
+// import 'dart:convert';
 
 // Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
 //
@@ -11,7 +11,7 @@ import 'dart:convert';
 class ProductDataModel {
   bool? status;
   String? message;
-  List<Product>? data;
+  List<ProductModel>? data;
 
   ProductDataModel({
     this.status,
@@ -22,7 +22,7 @@ class ProductDataModel {
   ProductDataModel copyWith({
     bool? status,
     String? message,
-    List<Product>? data,
+    List<ProductModel>? data,
   }) =>
       ProductDataModel(
         status: status ?? this.status,
@@ -33,7 +33,7 @@ class ProductDataModel {
   factory ProductDataModel.fromJson(Map<String, dynamic> json) => ProductDataModel(
     status: json["status"],
     message: json["message"],
-    data: json["data"] == null ? [] : List<Product>.from(json["data"]!.map((x) => Product.fromJson(x))),
+    data: json["data"] == null ? [] : List<ProductModel>.from(json["data"]!.map((x) => ProductModel.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,7 +43,7 @@ class ProductDataModel {
   };
 }
 
-class Product {
+class ProductModel {
   String? id;
   String? name;
   String? price;
@@ -53,7 +53,7 @@ class Product {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  Product({
+  ProductModel({
     this.id,
     this.name,
     this.price,
@@ -64,7 +64,7 @@ class Product {
     this.updatedAt,
   });
 
-  Product copyWith({
+  ProductModel copyWith({
     String? id,
     String? name,
     String? price,
@@ -74,7 +74,7 @@ class Product {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) =>
-      Product(
+      ProductModel(
         id: id ?? this.id,
         name: name ?? this.name,
         price: price ?? this.price,
@@ -85,7 +85,7 @@ class Product {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
     id: json["id"],
     name: json["name"],
     price: json["price"],

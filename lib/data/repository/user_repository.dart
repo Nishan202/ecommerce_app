@@ -17,7 +17,7 @@ class UserRepository{
   }
   Future<dynamic> registerUser({required String name, required int phoneNo, required String email,required String password}) async {
     try{
-      return await apiHelper.postApi(url: Urls.REGISTER_USER_URL, bodyParams: {
+      return await apiHelper.postApi(url: Urls.REGISTER_USER_URL, isHeaderRequired: false, bodyParams: {
         "name": name,
         "mobile_number": phoneNo,
         "email": email,

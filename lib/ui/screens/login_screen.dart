@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopping_application/bloc/login/login_bloc.dart';
 import 'package:shopping_application/bloc/login/login_event.dart';
+import 'package:shopping_application/ui/screens/dashboard_navigation_screen.dart';
 import 'package:shopping_application/ui/screens/home_screen.dart';
 import 'package:shopping_application/ui/screens/registration_screen.dart';
 
@@ -129,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HomeScreen()));
+                              builder: (context) => DashboardNavigationScreen()));
                     }
                   },
                   child: CustomButton(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopping_application/ui/screens/dashboard_navigation_screen.dart';
 import 'package:shopping_application/ui/screens/home_screen.dart';
 
 import '../../utils/asset_management.dart';
@@ -22,12 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 3), () async {
 
       var preference = await SharedPreferences.getInstance();
-      String? token = preference.getString('token');
+      String token = preference.getString('token') ?? "";
       //
-      Widget navigateTo = LoginScreen();
+      Widget navigateTo = const LoginScreen();
       //
-      if(token != null){
-        navigateTo = HomeScreen();
+      if(token != ""){
+        navigateTo = const DashboardNavigationScreen();
       }
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => navigateTo));
     });

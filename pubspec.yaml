@@ -38,6 +38,9 @@ dependencies:
   http: ^1.3.0
   flutter_bloc: ^9.1.0
   shared_preferences: ^2.5.2
+  carousel_slider: ^5.0.0
+  get: ^4.7.2
+  carousel_custom_slider: ^0.0.9
 
 dev_dependencies:
   flutter_test:
